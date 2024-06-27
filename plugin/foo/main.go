@@ -20,7 +20,7 @@ func main() {
 	}
 
 	var pluginMap = map[string]plugin.Plugin{
-		"foo": shared.NewPlugin(greeter),
+		"foo": shared.NewPluginServer(greeter),
 	}
 
 	plugin.Serve(&plugin.ServeConfig{

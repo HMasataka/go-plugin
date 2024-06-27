@@ -1,20 +1,21 @@
 package shared
 
 import (
+	"errors"
 	"net/rpc"
 
 	plugin "github.com/hashicorp/go-plugin"
 )
 
-type Greeter interface {
+type Plugin interface {
 	Greet() string
 }
 
-type GreeterRPC struct {
+type PluginRPC struct {
 	Client *rpc.Client
 }
 
-func (g *GreeterRPC) Greet() string {
+func (g *PluginRPC) Greet() string {
 	var resp string
 
 	err := g.Client.Call("Plugin.Greet", new(interface{}), &resp)
@@ -25,29 +26,41 @@ func (g *GreeterRPC) Greet() string {
 	return resp
 }
 
-type GreeterRPCServer struct {
-	Impl Greeter
+type PluginRPCServer struct {
+	Impl Plugin
 }
 
-func (s *GreeterRPCServer) Greet(_ interface{}, resp *string) error {
+func (s *PluginRPCServer) Greet(_ interface{}, resp *string) error {
 	*resp = s.Impl.Greet()
 	return nil
 }
 
-func NewPlugin(impl Greeter) plugin.Plugin {
-	return &GreeterPlugin{
+func NewPluginServer(impl Plugin) plugin.Plugin {
+	return &GreeterPluginServer{
 		Impl: impl,
 	}
 }
 
-type GreeterPlugin struct {
-	Impl Greeter
+type GreeterPluginServer struct {
+	Impl Plugin
 }
 
-func (m GreeterPlugin) Server(_ *plugin.MuxBroker) (interface{}, error) {
-	return &GreeterRPCServer{Impl: m.Impl}, nil
+func (m GreeterPluginServer) Server(_ *plugin.MuxBroker) (interface{}, error) {
+	return &PluginRPCServer{Impl: m.Impl}, nil
 }
 
-func (GreeterPlugin) Client(_ *plugin.MuxBroker, c *rpc.Client) (interface{}, error) {
-	return &GreeterRPC{Client: c}, nil
+func (GreeterPluginServer) Client(_ *plugin.MuxBroker, _ *rpc.Client) (interface{}, error) {
+	return nil, errors.New("Not implemented")
+}
+
+type GreeterPluginClient struct {
+	Impl Plugin
+}
+
+func (GreeterPluginClient) Server(_ *plugin.MuxBroker) (interface{}, error) {
+	return nil, errors.New("Not implemented")
+}
+
+func (GreeterPluginClient) Client(_ *plugin.MuxBroker, c *rpc.Client) (interface{}, error) {
+	return &PluginRPC{Client: c}, nil
 }

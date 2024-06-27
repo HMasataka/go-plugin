@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	greeters := shared.NewManager("*", "./bin", &shared.GreeterPlugin{})
+	greeters := shared.NewManager("*", "./bin", &shared.GreeterPluginClient{})
 	defer greeters.Dispose()
 
 	if err := greeters.Init(); err != nil {
@@ -23,6 +23,6 @@ func main() {
 		if err != nil {
 			log.Fatal(err.Error())
 		}
-		log.Printf("\n\n%s plugin gives me: %s\n\n", pluginName, p.(shared.Greeter).Greet())
+		log.Printf("\n\n%s plugin gives me: %s\n\n", pluginName, p.(shared.Plugin).Greet())
 	}
 }
