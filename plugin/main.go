@@ -8,12 +8,6 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-var handshakeConfig = plugin.HandshakeConfig{
-	ProtocolVersion:  1,
-	MagicCookieKey:   "BASIC_PLUGIN",
-	MagicCookieValue: "hello",
-}
-
 func main() {
 	logger := hclog.New(&hclog.LoggerOptions{
 		Level:      hclog.Trace,
@@ -29,10 +23,8 @@ func main() {
 		"greeter": &shared.GreeterPlugin{Impl: greeter},
 	}
 
-	logger.Debug("message from plugin", "foo", "bar")
-
 	plugin.Serve(&plugin.ServeConfig{
-		HandshakeConfig: handshakeConfig,
+		HandshakeConfig: shared.HandshakeConfig,
 		Plugins:         pluginMap,
 	})
 }

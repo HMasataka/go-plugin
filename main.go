@@ -19,7 +19,7 @@ func main() {
 	})
 
 	client := plugin.NewClient(&plugin.ClientConfig{
-		HandshakeConfig: handshakeConfig,
+		HandshakeConfig: shared.HandshakeConfig,
 		Plugins:         pluginMap,
 		Cmd:             exec.Command("./plugin/greeter"),
 		Logger:          logger,
@@ -38,12 +38,6 @@ func main() {
 
 	greeter := raw.(shared.Greeter)
 	fmt.Println(greeter.Greet())
-}
-
-var handshakeConfig = plugin.HandshakeConfig{
-	ProtocolVersion:  1,
-	MagicCookieKey:   "BASIC_PLUGIN",
-	MagicCookieValue: "hello",
 }
 
 var pluginMap = map[string]plugin.Plugin{
