@@ -22,9 +22,11 @@ func (g *PluginRPC) Greet(args string) (string, error) {
 	return resp, nil
 }
 
-type GreeterPluginClient struct {
-	Impl Plugin
+func NewGreeterPluginClient() plugin.Plugin {
+	return &GreeterPluginClient{}
 }
+
+type GreeterPluginClient struct{}
 
 func (GreeterPluginClient) Server(_ *plugin.MuxBroker) (interface{}, error) {
 	return nil, errors.New("Not implemented")
