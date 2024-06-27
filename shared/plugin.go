@@ -1,5 +1,5 @@
 package shared
 
 type Plugin interface {
-	Greet() string
+	Greet(string) (string, error)
 }

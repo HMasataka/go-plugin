@@ -11,8 +11,14 @@ type PluginRPCServer struct {
 	Impl Plugin
 }
 
-func (s *PluginRPCServer) Greet(_ interface{}, resp *string) error {
-	*resp = s.Impl.Greet()
+func (s *PluginRPCServer) Greet(args string, resp *string) error {
+	res, err := s.Impl.Greet(args)
+	if err != nil {
+		return err
+	}
+
+	*resp = res
+
 	return nil
 }
 

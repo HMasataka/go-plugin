@@ -21,8 +21,14 @@ func main() {
 	for _, pluginName := range []string{"foo", "hello"} {
 		p, err := greeters.Get(pluginName)
 		if err != nil {
-			log.Fatal(err.Error())
+			log.Fatal(err)
 		}
-		log.Printf("\n\n%s plugin gives me: %s\n\n", pluginName, p.(shared.Plugin).Greet())
+
+		resp, err := p.(shared.Plugin).Greet(pluginName)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		log.Printf("\n\n%s plugin gives me: %s\n\n", pluginName, resp)
 	}
 }

@@ -8,7 +8,7 @@ type GreeterFoo struct {
 	logger hclog.Logger
 }
 
-func (g *GreeterFoo) Greet() string {
+func (g *GreeterFoo) Greet(msg string) (string, error) {
 	g.logger.Debug("message from GreeterHello.Greet")
-	return "Hello!"
+	return msg, nil
 }
