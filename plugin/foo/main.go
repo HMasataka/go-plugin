@@ -20,7 +20,7 @@ func main() {
 	}
 
 	var pluginMap = map[string]plugin.Plugin{
-		"foo": &shared.GreeterPlugin{Impl: greeter},
+		"foo": shared.NewPlugin(greeter),
 	}
 
 	plugin.Serve(&plugin.ServeConfig{
