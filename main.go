@@ -24,7 +24,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		resp, err := p.(shared.Plugin).Greet(pluginName)
+		resp, err := p.(shared.Plugin).Greet(pluginName, " args2")
 		if err != nil {
 			log.Fatal(err)
 		}

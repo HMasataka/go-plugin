@@ -11,10 +11,12 @@ type PluginRPC struct {
 	Client *rpc.Client
 }
 
-func (g *PluginRPC) Greet(args string) (string, error) {
+func (g *PluginRPC) Greet(args1, args2 string) (string, error) {
 	var resp string
 
-	err := g.Client.Call("Plugin.Greet", args, &resp)
+	params := &Arg{P1: args1, P2: args2}
+
+	err := g.Client.Call("Plugin.Greet", params, &resp)
 	if err != nil {
 		return "", err
 	}
