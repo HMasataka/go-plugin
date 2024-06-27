@@ -1,3 +1,3 @@
 all:
-	go build -o greeter-foo
-	mv greeter-foo ../../bin
+	go build -o foo
+	mv foo ../../bin

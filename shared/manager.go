@@ -43,8 +43,8 @@ func (m *Manager) Init() error {
 
 	for _, plugin := range plugins {
 		_, file := filepath.Split(plugin)
-		globAsterix := strings.LastIndex(m.Glob, "*")
-		trim := m.Glob[0:globAsterix]
+		globAsterisk := strings.LastIndex(m.Glob, "*")
+		trim := m.Glob[0:globAsterisk]
 		id := strings.TrimPrefix(file, trim)
 
 		m.Plugins[id] = &Info{
